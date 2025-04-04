@@ -16,14 +16,14 @@ CREATE TABLE ems_device (
     manufacturer VARCHAR(255) NOT NULL,
     serial_id VARCHAR(255) NOT NULL,
     site_id BIGINT NOT NULL,
-    power_source VARCHAR(255) NOT NULL CHECK (power_source IN ('')),
+    power_source VARCHAR(255) NOT NULL CHECK (power_source IN ('Solar', 'WAPDA', 'Generator')),
     status BOOLEAN NOT NULL
 );
 
 CREATE TABLE consumption (
     id BIGINT PRIMARY KEY NOT NULL,
     recorded_time TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-    consumption_unit VARCHAR(255) NOT NULL CHECK (consumption_unit IN ('')),
+    consumption_unit VARCHAR(255) NOT NULL CHECK (consumption_unit IN ('kWh', 'MWh')),
     device_id BIGINT NOT NULL,
     consumption DECIMAL(8,2) NOT NULL
 );
@@ -58,12 +58,12 @@ CREATE TABLE ems_tariff (
     id BIGINT PRIMARY KEY NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
-    power_source VARCHAR(255) NOT NULL CHECK (power_source IN ('')),
+    power_source VARCHAR(255) NOT NULL CHECK (power_source IN ('Solar', 'WAPDA', 'Generator')),
     unit_cost DECIMAL(8,2) NOT NULL,
     status BOOLEAN NOT NULL
 );
 
--- Foreign Keys
+-- Step 3: Add Foreign Keys
 ALTER TABLE ems_customer ADD CONSTRAINT ems_customer_site_id_fk FOREIGN KEY (site_id) REFERENCES ems_site(id);
 ALTER TABLE ems_device ADD CONSTRAINT ems_device_site_id_fk FOREIGN KEY (site_id) REFERENCES ems_site(id);
 ALTER TABLE ems_state ADD CONSTRAINT ems_state_regions_fk FOREIGN KEY (regions) REFERENCES ems_region(id);
