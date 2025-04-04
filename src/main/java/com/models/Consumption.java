@@ -17,5 +17,5 @@ public class Consumption {
     private LocalDateTime recordedTime;
     private String consumptionUnit;
     private Long deviceId;
-    private BigDecimal consumption;
+    private String consumption;
 }
