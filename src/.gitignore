@@ -1,5 +1,7 @@
-# Maven
-target/
+# Ignore Maven target directory
+/target/
+
+# Maven build files
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -9,17 +11,17 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
-# IDEs
+# IDE settings
 .idea/
-*.iml
-*.ipr
-*.iws
+/*.iml
+/*.ipr
+/*.iws
 .vscode/
 
 # Logs
 *.log
 
-# OS Files
+# OS files
 .DS_Store
 Thumbs.db
 
@@ -31,7 +33,7 @@ Thumbs.db
 # IntelliJ
 out/
 
-# Java
+# Java build files
 *.class
 *.jar
 *.war
@@ -41,20 +43,20 @@ out/
 .env
 *.env
 
-# Node / Frontend (if embedded frontend exists)
+# Node / frontend (if applicable)
 node_modules/
 dist/
 
-# Generated
+# Generated files
 *.db
 *.sqlite
 *.h2.db
 
-# Coverage and reports
+# Code coverage and reports
 coverage/
 jacoco.exec
 *.ec
 
-# Other
+# Misc
 *.swp
 *.bak
