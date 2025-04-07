@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.YearMonth;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class TimeRangeUtil {
 
     public static LocalDateTime[] getTodayRange() {

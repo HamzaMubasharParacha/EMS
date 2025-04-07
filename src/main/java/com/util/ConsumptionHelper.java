@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import com.models.Consumption;
 import com.models.EmsDevice;
 import com.repositories.ConsumptionRepository;
@@ -14,6 +15,7 @@ import com.service.EmsDeviceService;
 import com.service.EmsRegionService;
 import com.service.EmsSiteService;
 
+@Component
 public class ConsumptionHelper {
 
     @Autowired
