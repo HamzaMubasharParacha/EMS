@@ -1,18 +1,16 @@
 package com.service;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.models.Consumption;
 import com.models.EmsDevice;
-import com.models.EmsRegion;
-import com.models.EmsSite;
 import com.repositories.ConsumptionRepository;
+import com.util.ConsumptionHelper;
+import com.util.TimeRangeUtil;
 
 @Service
 public class ConsumptionService {
@@ -24,35 +22,19 @@ public class ConsumptionService {
     private EmsDeviceService emsDeviceService;
     @Autowired
     private EmsSiteService emsSiteService;
+    @Autowired
+    private ConsumptionHelper consumptionHelper;
 
     public List<Consumption> getAllDevicesConsumption() {
         return consumptionRepository.findAll();
     }
 
     public List<Consumption> getRegionDevicesConsumption(String regionName) {
-        Optional<EmsRegion> emsRegion = emsRegionService.getRegionByName(regionName);
-        if (emsRegion.isEmpty()) {
-            return Collections.emptyList();
-        }
-        List<EmsSite> emsSites = emsSiteService.getSiteByRegionId(emsRegion.get().getId());
-        List<EmsDevice> emsDevices = emsSites.stream()
-                .map(emsSite -> emsDeviceService.getDeviceBySiteId(emsSite.getId()))
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        return getConsumptionList(emsDevices);
+        return consumptionHelper.getConsumptionList(consumptionHelper.getDevicesByRegion(regionName));
     }
 
-    public List<Consumption> getSiteDevicesConsumption(String site) {
-        Optional<EmsSite> emsSiteOptional = emsSiteService.getSiteByName(site);
-        if (emsSiteOptional.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        EmsSite emsSite = emsSiteOptional.get();
-        List<EmsDevice> emsDevices = emsDeviceService.getDeviceBySiteId(emsSite.getId());
-
-        return getConsumptionList(emsDevices);
+    public List<Consumption> getSiteDevicesConsumption(String siteName) {
+        return consumptionHelper.getConsumptionList(consumptionHelper.getDevicesBySite(siteName));
     }
 
     public Optional<Consumption> getDeviceById(Long id) {
@@ -67,15 +49,39 @@ public class ConsumptionService {
         consumptionRepository.deleteById(id);
     }
 
-    private List<Consumption> getConsumptionList(List<EmsDevice> emsDevices) {
-        if (emsDevices.isEmpty()) {
-            return Collections.emptyList();
-        }
+    public List<Consumption> getTodayConsumptionByRegion(String regionName) {
+        List<EmsDevice> devices = consumptionHelper.getDevicesByRegion(regionName);
+        LocalDateTime[] range = TimeRangeUtil.getTodayRange();
+        return consumptionHelper.getConsumptionsByDevicesAndTimeRange(devices, range[0], range[1]);
+    }
 
-        return emsDevices.stream()
-                .map(EmsDevice::getId)
-                .map(consumptionRepository::getByDeviceId)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public List<Consumption> getThisMonthConsumptionByRegion(String regionName) {
+        List<EmsDevice> devices = consumptionHelper.getDevicesByRegion(regionName);
+        LocalDateTime[] range = TimeRangeUtil.getThisMonthRange();
+        return consumptionHelper.getConsumptionsByDevicesAndTimeRange(devices, range[0], range[1]);
+    }
+
+    public List<Consumption> getConsumptionByRegionAndMonth(String regionName, int year, int month) {
+        List<EmsDevice> devices = consumptionHelper.getDevicesByRegion(regionName);
+        LocalDateTime[] range = TimeRangeUtil.getMonthRange(year, month);
+        return consumptionHelper.getConsumptionsByDevicesAndTimeRange(devices, range[0], range[1]);
+    }
+
+    public List<Consumption> getTodayConsumptionBySite(String siteName) {
+        List<EmsDevice> devices = consumptionHelper.getDevicesBySite(siteName);
+        LocalDateTime[] range = TimeRangeUtil.getTodayRange();
+        return consumptionHelper.getConsumptionsByDevicesAndTimeRange(devices, range[0], range[1]);
+    }
+
+    public List<Consumption> getThisMonthConsumptionBySite(String siteName) {
+        List<EmsDevice> devices = consumptionHelper.getDevicesBySite(siteName);
+        LocalDateTime[] range = TimeRangeUtil.getThisMonthRange();
+        return consumptionHelper.getConsumptionsByDevicesAndTimeRange(devices, range[0], range[1]);
+    }
+
+    public List<Consumption> getConsumptionBySiteAndMonth(String siteName, int year, int month) {
+        List<EmsDevice> devices = consumptionHelper.getDevicesBySite(siteName);
+        LocalDateTime[] range = TimeRangeUtil.getMonthRange(year, month);
+        return consumptionHelper.getConsumptionsByDevicesAndTimeRange(devices, range[0], range[1]);
     }
 }

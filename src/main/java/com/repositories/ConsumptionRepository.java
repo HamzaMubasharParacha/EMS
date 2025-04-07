@@ -9,9 +9,5 @@ import com.models.Consumption;
 
 public interface ConsumptionRepository extends JpaRepository<Consumption, Long> {
     Collection<? extends Consumption> getByDeviceId(Long deviceId);
-    // For today's consumption
     List<Consumption> findByDeviceIdAndRecordedTimeBetween(Long deviceId, LocalDateTime start, LocalDateTime end);
-
-    // If you want all consumption of a region for a given time range
-    List<Consumption> findByRecordedTimeBetween(LocalDateTime start, LocalDateTime end);
 }

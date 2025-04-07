@@ -2,33 +2,33 @@ package com.util;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.YearMonth;
 
 public class TimeRangeUtil {
 
     public static LocalDateTime[] getTodayRange() {
         LocalDate today = LocalDate.now();
-        return new LocalDateTime[] {
+        return new LocalDateTime[]{
                 today.atStartOfDay(),
-                today.plusDays(1).atStartOfDay().minusNanos(1)
+                today.atTime(LocalTime.MAX)
         };
     }
 
     public static LocalDateTime[] getThisMonthRange() {
         LocalDate today = LocalDate.now();
-        LocalDate start = today.withDayOfMonth(1);
-        LocalDate end = start.plusMonths(1).minusDays(1);
-        return new LocalDateTime[] {
-                start.atStartOfDay(),
-                end.plusDays(1).atStartOfDay().minusNanos(1)
+        YearMonth yearMonth = YearMonth.of(today.getYear(), today.getMonth());
+        return new LocalDateTime[]{
+                yearMonth.atDay(1).atStartOfDay(),
+                yearMonth.atEndOfMonth().atTime(LocalTime.MAX)
         };
     }
 
     public static LocalDateTime[] getMonthRange(int year, int month) {
-        LocalDate start = LocalDate.of(year, month, 1);
-        LocalDate end = start.plusMonths(1).minusDays(1);
-        return new LocalDateTime[] {
-                start.atStartOfDay(),
-                end.plusDays(1).atStartOfDay().minusNanos(1)
+        YearMonth yearMonth = YearMonth.of(year, month);
+        return new LocalDateTime[]{
+                yearMonth.atDay(1).atStartOfDay(),
+                yearMonth.atEndOfMonth().atTime(LocalTime.MAX)
         };
     }
 }
