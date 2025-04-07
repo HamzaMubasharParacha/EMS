@@ -23,6 +23,10 @@ public class EmsDeviceService {
         return emsDeviceRepository.findById(id);
     }
 
+    public List<EmsDevice> getDeviceBySiteId(Long id) {
+        return emsDeviceRepository.findBySiteId(id);
+    }
+
     public EmsDevice createDevice(EmsDevice emsDevice) {
         return emsDeviceRepository.save(emsDevice);
     }

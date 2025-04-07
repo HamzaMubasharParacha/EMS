@@ -23,6 +23,10 @@ public class EmsRegionService {
         return emsRegionRepository.findById(id);
     }
 
+    public Optional<EmsRegion> getRegionByName(String name) {
+        return emsRegionRepository.findByName(name);
+    }
+
     public EmsRegion createRegion(EmsRegion emsRegion) {
         return emsRegionRepository.save(emsRegion);
     }

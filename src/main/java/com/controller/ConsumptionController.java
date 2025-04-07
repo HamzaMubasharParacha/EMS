@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.models.Consumption;
-import com.models.EmsDevice;
 import com.service.ConsumptionService;
 
 @RestController
@@ -21,9 +20,19 @@ public class ConsumptionController {
     @Autowired
     private ConsumptionService consumptionService;
 
-    @GetMapping
-    public List<Consumption> getAllDevices() {
-        return consumptionService.getAllDevices();
+    @GetMapping("/state")
+    public List<Consumption> getAllDevicesConsumption() {
+        return consumptionService.getAllDevicesConsumption();
+    }
+
+    @GetMapping("/region/{region}")
+    public List<Consumption> getRegionDevices(@PathVariable String region) {
+        return consumptionService.getRegionDevicesConsumption(region);
+    }
+
+    @GetMapping("/site/{site}")
+    public List<Consumption> getSiteDevices(@PathVariable String site) {
+        return consumptionService.getSiteDevicesConsumption(site);
     }
 
     @GetMapping("/{id}")

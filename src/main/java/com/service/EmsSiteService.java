@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.models.EmsCustomer;
 import com.models.EmsSite;
 import com.repositories.EmsSiteRepository;
 
@@ -21,6 +20,14 @@ public class EmsSiteService {
 
     public Optional<EmsSite> getDeviceById(Long id) {
         return siteRepository.findById(id);
+    }
+
+    public List<EmsSite> getSiteByRegionId(Long id) {
+        return siteRepository.findByRegionId(id);
+    }
+
+    public Optional<EmsSite> getSiteByName(String name) {
+        return siteRepository.findByName(name);
     }
 
     public EmsSite createDevice(EmsSite emsSite) {
