@@ -1,12 +1,11 @@
 com\models\EmsRegion.class
-com\Application.class
-com\repositories\EmsDeviceRepository.class
-com\repositories\EmsRegionRepository.class
 com\models\EmsCustomer.class
-com\models\EmsDevice.class
-com\controller\EmsDeviceController.class
 com\service\EmsRegionService.class
 com\models\Consumption.class
-com\controller\EmsRegionController.class
 com\models\EmsSite.class
+com\repositories\EmsDeviceRepository.class
+com\repositories\EmsRegionRepository.class
+com\models\EmsDevice.class
+com\controller\EmsDeviceController.class
+com\controller\EmsRegionController.class
 com\service\EmsDeviceService.class
